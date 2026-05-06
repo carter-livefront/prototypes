@@ -24,7 +24,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
 fi
 
 ID=$(openssl rand -hex 16)
-DEST="$ROOT/public/p/$ID"
+DEST="$ROOT/docs/p/$ID"
 CREATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 cp -r "$TEMPLATE_DIR" "$DEST"
@@ -50,5 +50,5 @@ PY
 
 echo "Created prototype:"
 echo "  ID:    $ID"
-echo "  Path:  public/p/$ID/"
+echo "  Path:  docs/p/$ID/"
 echo "  URL:   /p/$ID/"

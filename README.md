@@ -1,6 +1,6 @@
 # prototypes
 
-Private host for HTML prototypes shared via unguessable 32-char URLs.
+Host for HTML prototypes shared via unguessable 32-char URLs at https://prototypes.cartershades.com/.
 
 ## Quick start
 
@@ -8,6 +8,6 @@ Private host for HTML prototypes shared via unguessable 32-char URLs.
 ./_scripts/new.sh "My prototype"
 ```
 
-Edit `public/p/<id>/index.html`, push, share the `/p/<id>/` URL.
+Edit `docs/p/<id>/index.html`, commit, push. GitHub Pages redeploys in ~1 min. Share the `https://prototypes.cartershades.com/p/<id>/` URL.
 
-See [CLAUDE.md](CLAUDE.md) for the full layout, conventions, and privacy setup.
+See [CLAUDE.md](CLAUDE.md) for the full layout, conventions, and privacy notes.
