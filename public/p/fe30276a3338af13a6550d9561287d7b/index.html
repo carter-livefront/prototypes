@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Rooted Plant Care Prototype</title>
+    <style>
+      :root {
+        --leaf: #27734b;
+        --moss: #6d8c57;
+        --sage: #edf4e8;
+        --mint: #d8ead4;
+        --soil: #49362c;
+        --clay: #c6714c;
+        --sun: #f2b84b;
+        --ink: #17261d;
+        --muted: #69776d;
+        --line: #dce6d8;
+        --card: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        background: #cfd9d0;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      .phone {
+        width: 375px;
+        height: 812px;
+        overflow: hidden;
+        background: #f8fbf5;
+        border: 1px solid #bfcbbd;
+        box-shadow: 0 24px 80px rgba(28, 47, 33, 0.24);
+        position: relative;
+      }
+
+      .app {
+        height: 100%;
+        overflow-y: auto;
+        padding: 18px 16px 92px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 18px;
+        color: #25352a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .signals {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .bars {
+        display: grid;
+        grid-template-columns: repeat(4, 3px);
+        align-items: end;
+        gap: 2px;
+        height: 12px;
+      }
+
+      .bars span {
+        width: 3px;
+        border-radius: 2px;
+        background: #25352a;
+      }
+
+      .bars span:nth-child(1) {
+        height: 4px;
+      }
+
+      .bars span:nth-child(2) {
+        height: 7px;
+      }
+
+      .bars span:nth-child(3) {
+        height: 10px;
+      }
+
+      .bars span:nth-child(4) {
+        height: 12px;
+      }
+
+      .battery {
+        width: 23px;
+        height: 11px;
+        border: 1.5px solid #25352a;
+        border-radius: 3px;
+        position: relative;
+      }
+
+      .battery::before {
+        content: "";
+        position: absolute;
+        right: -4px;
+        top: 3px;
+        width: 2px;
+        height: 4px;
+        border-radius: 0 2px 2px 0;
+        background: #25352a;
+      }
+
+      .battery::after {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 14px;
+        height: 5px;
+        border-radius: 2px;
+        background: #25352a;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 22px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: var(--leaf);
+        position: relative;
+        box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08);
+      }
+
+      .mark::before,
+      .mark::after {
+        content: "";
+        position: absolute;
+        border-radius: 100% 0 100% 0;
+        background: #f0f8e8;
+        transform: rotate(-32deg);
+      }
+
+      .mark::before {
+        width: 17px;
+        height: 24px;
+        left: 11px;
+        top: 7px;
+      }
+
+      .mark::after {
+        width: 9px;
+        height: 15px;
+        right: 8px;
+        top: 16px;
+        opacity: 0.8;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 26px;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .date {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        color: var(--leaf);
+      }
+
+      .summary {
+        margin-top: 20px;
+        min-height: 142px;
+        border-radius: 8px;
+        padding: 18px;
+        background:
+          linear-gradient(120deg, rgba(39, 115, 75, 0.94), rgba(75, 111, 63, 0.88)),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180' viewBox='0 0 300 180'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.2' stroke-width='3'%3E%3Cpath d='M28 151C46 94 71 59 107 46c8 38-13 78-79 105Z'/%3E%3Cpath d='M205 165c-11-58 0-103 33-135 25 30 22 80-33 135Z'/%3E%3Cpath d='M139 144c-3-45 13-76 48-93 14 35-2 66-48 93Z'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: cover;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .summary h2 {
+        max-width: 220px;
+        font-size: 24px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .summary p {
+        width: 210px;
+        margin-top: 10px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .summary-count {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #f7f0db;
+        color: var(--soil);
+        font-size: 25px;
+        font-weight: 800;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        margin: 22px 0 12px;
+      }
+
+      .section-head h2 {
+        font-size: 19px;
+        letter-spacing: 0;
+      }
+
+      .section-head button {
+        border: 0;
+        background: transparent;
+        color: var(--leaf);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .plant-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .plant-card {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 12px;
+        min-height: 142px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--card);
+      }
+
+      .plant-art {
+        height: 118px;
+        border-radius: 8px;
+        background: var(--sage);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pot {
+        position: absolute;
+        left: 18px;
+        bottom: 10px;
+        width: 36px;
+        height: 34px;
+        border-radius: 4px 4px 10px 10px;
+        background: var(--clay);
+      }
+
+      .pot::before {
+        content: "";
+        position: absolute;
+        left: -4px;
+        top: -7px;
+        width: 44px;
+        height: 10px;
+        border-radius: 4px;
+        background: #a6573b;
+      }
+
+      .stem {
+        position: absolute;
+        left: 35px;
+        bottom: 43px;
+        width: 3px;
+        height: 50px;
+        border-radius: 3px;
+        background: #4f7a45;
+      }
+
+      .leaf {
+        position: absolute;
+        width: 25px;
+        height: 38px;
+        border-radius: 100% 0 100% 0;
+        background: var(--leaf);
+      }
+
+      .leaf.a {
+        left: 14px;
+        bottom: 68px;
+        transform: rotate(-58deg);
+      }
+
+      .leaf.b {
+        right: 13px;
+        bottom: 66px;
+        transform: rotate(22deg);
+        background: #3b8b57;
+      }
+
+      .leaf.c {
+        left: 21px;
+        bottom: 86px;
+        transform: rotate(-18deg);
+        width: 22px;
+        height: 32px;
+        background: #75a25e;
+      }
+
+      .plant-card:nth-child(2) .plant-art {
+        background: #f7efe5;
+      }
+
+      .plant-card:nth-child(2) .leaf {
+        background: #7a9c5a;
+      }
+
+      .plant-card:nth-child(2) .leaf.b {
+        background: #d4a23f;
+      }
+
+      .plant-card:nth-child(3) .plant-art {
+        background: #eaf0f8;
+      }
+
+      .plant-card:nth-child(3) .pot {
+        background: #6a7e99;
+      }
+
+      .plant-card:nth-child(3) .pot::before {
+        background: #51657d;
+      }
+
+      .plant-card:nth-child(4) .plant-art {
+        background: #f3eadb;
+      }
+
+      .plant-card:nth-child(4) .leaf {
+        width: 18px;
+        height: 46px;
+        border-radius: 14px 14px 4px 4px;
+        transform: rotate(0deg);
+      }
+
+      .plant-card:nth-child(4) .leaf.a {
+        left: 13px;
+      }
+
+      .plant-card:nth-child(4) .leaf.b {
+        right: 13px;
+      }
+
+      .plant-card:nth-child(4) .leaf.c {
+        left: 28px;
+      }
+
+      .plant-info {
+        min-width: 0;
+      }
+
+      .plant-top {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .plant-top h3 {
+        font-size: 16px;
+        letter-spacing: 0;
+      }
+
+      .plant-type {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .timer {
+        flex: 0 0 auto;
+        padding: 6px 8px;
+        border-radius: 8px;
+        background: #edf7f0;
+        color: var(--leaf);
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .care {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .care-item {
+        min-height: 46px;
+        padding: 8px;
+        border-radius: 8px;
+        background: #f5f8f2;
+      }
+
+      .care-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .care-value {
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .instructions {
+        margin-top: 9px;
+        color: #4d5c52;
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .bottom-nav {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 18px;
+        height: 58px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(16px);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+      }
+
+      .nav-item {
+        display: grid;
+        place-items: center;
+        gap: 4px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .nav-item.active {
+        color: var(--leaf);
+      }
+
+      svg {
+        display: block;
+      }
+
+      @media (max-width: 374px), (max-height: 811px) {
+        body {
+          place-items: start center;
+          background: #f8fbf5;
+        }
+
+        .phone {
+          width: 100vw;
+          height: 100vh;
+          border: 0;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" aria-label="Rooted mobile prototype">
+      <section class="app">
+        <div class="status">
+          <span>9:41</span>
+          <div class="signals" aria-hidden="true">
+            <div class="bars">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span>5G</span>
+            <span class="battery"></span>
+          </div>
+        </div>
+
+        <header>
+          <div class="brand">
+            <div class="mark" aria-hidden="true"></div>
+            <div>
+              <h1>Rooted</h1>
+              <p class="date">Tuesday, May 5</p>
+            </div>
+          </div>
+          <button class="icon-btn" aria-label="Add plant">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+            </svg>
+          </button>
+        </header>
+
+        <section class="summary" aria-label="Today care summary">
+          <h2>Two plants need water today.</h2>
+          <p>Check soil first, then follow each plant's sunlight and water notes.</p>
+          <div class="summary-count">2</div>
+        </section>
+
+        <div class="section-head">
+          <h2>My plants</h2>
+          <button type="button">Sort</button>
+        </div>
+
+        <section class="plant-list" aria-label="Plant care list">
+          <article class="plant-card" data-water-at="2026-05-05T19:00:00-05:00">
+            <div class="plant-art" aria-hidden="true">
+              <span class="stem"></span>
+              <span class="leaf a"></span>
+              <span class="leaf b"></span>
+              <span class="leaf c"></span>
+              <span class="pot"></span>
+            </div>
+            <div class="plant-info">
+              <div class="plant-top">
+                <div>
+                  <h3>Monty</h3>
+                  <p class="plant-type">Monstera</p>
+                </div>
+                <span class="timer">Today</span>
+              </div>
+              <div class="care">
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11Z" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    Water
+                  </div>
+                  <div class="care-value">1 cup</div>
+                </div>
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Sun
+                  </div>
+                  <div class="care-value">Bright indirect</div>
+                </div>
+              </div>
+              <p class="instructions">Rotate weekly and water when the top two inches feel dry.</p>
+            </div>
+          </article>
+
+          <article class="plant-card" data-water-at="2026-05-06T08:30:00-05:00">
+            <div class="plant-art" aria-hidden="true">
+              <span class="stem"></span>
+              <span class="leaf a"></span>
+              <span class="leaf b"></span>
+              <span class="leaf c"></span>
+              <span class="pot"></span>
+            </div>
+            <div class="plant-info">
+              <div class="plant-top">
+                <div>
+                  <h3>Goldie</h3>
+                  <p class="plant-type">Pothos</p>
+                </div>
+                <span class="timer">Tomorrow</span>
+              </div>
+              <div class="care">
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11Z" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    Water
+                  </div>
+                  <div class="care-value">3/4 cup</div>
+                </div>
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Sun
+                  </div>
+                  <div class="care-value">Low to medium</div>
+                </div>
+              </div>
+              <p class="instructions">Let soil dry halfway down. Trim long vines to encourage fuller growth.</p>
+            </div>
+          </article>
+
+          <article class="plant-card" data-water-at="2026-05-05T21:15:00-05:00">
+            <div class="plant-art" aria-hidden="true">
+              <span class="stem"></span>
+              <span class="leaf a"></span>
+              <span class="leaf b"></span>
+              <span class="leaf c"></span>
+              <span class="pot"></span>
+            </div>
+            <div class="plant-info">
+              <div class="plant-top">
+                <div>
+                  <h3>Luna</h3>
+                  <p class="plant-type">Peace lily</p>
+                </div>
+                <span class="timer">Today</span>
+              </div>
+              <div class="care">
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11Z" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    Water
+                  </div>
+                  <div class="care-value">1 1/4 cups</div>
+                </div>
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Sun
+                  </div>
+                  <div class="care-value">Filtered light</div>
+                </div>
+              </div>
+              <p class="instructions">Keep soil lightly moist and wipe leaves with a damp cloth.</p>
+            </div>
+          </article>
+
+          <article class="plant-card" data-water-at="2026-05-09T09:00:00-05:00">
+            <div class="plant-art" aria-hidden="true">
+              <span class="stem"></span>
+              <span class="leaf a"></span>
+              <span class="leaf b"></span>
+              <span class="leaf c"></span>
+              <span class="pot"></span>
+            </div>
+            <div class="plant-info">
+              <div class="plant-top">
+                <div>
+                  <h3>Spike</h3>
+                  <p class="plant-type">Snake plant</p>
+                </div>
+                <span class="timer">4 days</span>
+              </div>
+              <div class="care">
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11Z" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    Water
+                  </div>
+                  <div class="care-value">1/2 cup</div>
+                </div>
+                <div class="care-item">
+                  <div class="care-label">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Sun
+                  </div>
+                  <div class="care-value">Any light</div>
+                </div>
+              </div>
+              <p class="instructions">Water sparingly. Let soil dry out completely between watering.</p>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <div class="nav-item active">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 10.5 12 4l8 6.5V20H4v-9.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+          </svg>
+          Home
+        </div>
+        <div class="nav-item">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3c3 4 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-7 6-11Z" stroke="currentColor" stroke-width="2" />
+          </svg>
+          Care
+        </div>
+        <div class="nav-item">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          Timers
+        </div>
+        <div class="nav-item">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          Profile
+        </div>
+      </nav>
+    </main>
+
+    <script>
+      function updateTimers() {
+        const now = new Date();
+
+        document.querySelectorAll("[data-water-at]").forEach((card) => {
+          const target = new Date(card.dataset.waterAt);
+          const diff = target - now;
+          const timer = card.querySelector(".timer");
+
+          if (diff <= 0) {
+            timer.textContent = "Now";
+            timer.style.background = "#fff1dc";
+            timer.style.color = "#9a571c";
+            return;
+          }
+
+          const hours = Math.floor(diff / 3600000);
+          const minutes = Math.floor((diff % 3600000) / 60000);
+          const days = Math.floor(hours / 24);
+
+          if (days > 0) {
+            timer.textContent = `${days} day${days === 1 ? "" : "s"}`;
+          } else if (hours > 0) {
+            timer.textContent = `${hours}h ${minutes}m`;
+          } else {
+            timer.textContent = `${minutes}m`;
+          }
+        });
+      }
+
+      updateTimers();
+      setInterval(updateTimers, 60000);
+    </script>
+  </body>
+</html>
