@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0f0f10;
+  --bg-elev: #1c1c1e;
+  --bg-elev-2: #2a2a2c;
+  --fg: #f5f5f7;
+  --fg-dim: #a1a1a6;
+  --fg-muted: #6e6e73;
+  --accent: #ffffff;
+  --user-bubble: #2a2a2c;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-bg-elev-2: var(--bg-elev-2);
+  --color-fg: var(--fg);
+  --color-fg-dim: var(--fg-dim);
+  --color-fg-muted: var(--fg-muted);
+  --color-user-bubble: var(--user-bubble);
+}
+
+html, body {
+  background: #000;
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter",
+    Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+/* Hide scrollbars in chat areas but keep functionality */
+.scroll-hide::-webkit-scrollbar { display: none; }
+.scroll-hide { scrollbar-width: none; }
+
+/* Phone-frame on desktop */
+.phone-frame {
+  width: 100vw;
+  height: 100dvh;
+  max-width: 375px;
+  max-height: 812px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 480px) {
+  .phone-frame {
+    border-radius: 40px;
+    box-shadow:
+      0 0 0 8px #1a1a1a,
+      0 0 0 9px #2a2a2a,
+      0 30px 80px -20px rgba(0,0,0,0.6);
+    margin: 16px auto;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

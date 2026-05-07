@@ -14,5 +14,13 @@
     "created": "2026-05-06T03:03:03Z",
     "tags": [],
     "notes": ""
+  },
+  {
+    "id": "bd74ad2714e46acb3f9db94d59267795",
+    "title": "L\u2022AI\u2022C Prototype",
+    "template": "next-export",
+    "created": "2026-05-07T03:58:53Z",
+    "tags": ["next.js", "framer-motion", "mobile"],
+    "notes": "Source: _sources/laic-prototype/. Rebuild with: npm run build:export (in _sources/laic-prototype) with EXPORT_BASE_PATH=/p/bd74ad2714e46acb3f9db94d59267795 NEXT_PUBLIC_BASE_PATH=/p/bd74ad2714e46acb3f9db94d59267795, then copy out/* to docs/p/bd74ad2714e46acb3f9db94d59267795/"
   }
 ]
